@@ -3,17 +3,22 @@ from flask import Flask
 from flask import request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import random
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String,DATE
 from env import *
-
+import requests
+from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
+from transitions.extensions import GraphMachine
+from geopy.geocoders import Nominatim
+import os
+
 
 SQLALCHEMY_DATABASE_URL = database_uri
 
@@ -45,9 +50,10 @@ class bot(object):
 
     # Define some states. Most of the time, narcoleptic superheroes are just like
     # everyone else. Except for...
-    states = ['init', 'tutorial', 'elevator', 'playground','help_elevator','getDB','newDB','deleteDB']
+    states = ['init', 'tutorial', 'elevator', 'playground','help_elevator','Map','getDB','newDB','deleteDB','News','Weather']
     msg = ""
     target = 0
+    Region = ""
     
 
 
@@ -55,14 +61,47 @@ class bot(object):
     def __init__(self, name):
         
         self.name = name
+       
+        self.feature = ""
+        
+        self.willImg = 0
+        
+        self.statistics = {} 
+        
+        self.msg_array = []
 
         self.machine = Machine(model=self, states=bot.states, initial='init')
         
-        self.machine.add_transition(trigger='wake_up', source='asleep', dest='hanging out')
-        
         self.machine.add_transition('help','init','tutorial')
+
+        self.machine.add_transition('news',['init','tutorial'],'News')
+        
+        self.machine.add_transition('weather',['init','tutorial'],'Weather',before = 'showWeatherStatus')
+        
+        self.machine.add_transition('Region','Weather','=',before = 'changeRegion')
+        
+        self.machine.add_transition('wx8','Weather','=',conditions= 'hasRegion',after ='getWx')
+        
+        self.machine.add_transition('maxT','Weather','=',conditions= 'hasRegion',after ='getMaxT')
+       
+        self.machine.add_transition('minT','Weather','=',conditions= 'hasRegion',after ='getMinT') 
+        
+        self.machine.add_transition('ci','Weather','=',conditions= 'hasRegion',after ='getCi')
+        
+        self.machine.add_transition('pop','Weather','=',conditions= 'hasRegion',after ='getPop')  
+        # wx8    # 天氣現象
+# maxtT  # 最高溫
+# mintT # 最低溫
+# ci   # 舒適度
+# pop  # 降雨機率
         
         self.machine.add_transition('play',['init','tutorial'],'playground',before = 'random_number')
+        
+        self.machine.add_transition('map',['init','tutorial'],'Map',after = 'map_info')
+        
+        self.machine.add_transition('position','Map','=', after = "positionInfo")
+        
+        self.machine.add_transition('positionInfo','Map','=',conditions='hasfeature',after = 'posImg')
         
         self.machine.add_transition('guess','playground','=',before = 'guess')
         
@@ -89,11 +128,61 @@ class bot(object):
         self.machine.on_enter_elevator(self.print_elevator)
         
         self.machine.on_enter_init(self.in_init)
+
+        self.machine.on_enter_News(self.news)
         
         self.machine.on_enter_help_elevator(self.help_in_elevator)
+
         
     def in_init(self):
         self.msg = "hi it is robot !"
+
+    def news(self):
+        response = requests.get("https://www.bbc.com/news")
+        soup = BeautifulSoup(response.text, "html.parser")
+        result = soup.find_all("li",  class_="gel-layout__item gs-o-faux-block-link gs-u-mb+ gel-1/2@m gs-u-float-left@m gs-u-clear-left@m gs-u-float-none@xxl")
+        self.msg = "From BBC Most read news top 5 : \n"
+        j = 1
+        for i in result:
+          try:
+              self.msg += str(j) + " : " + str(i.find('span').text[1:-1]) + "\n"
+              self.msg += "https://www.bbc.com" + str(i.find('a')['href']) + "\n"
+              j+=1
+          except:
+              print('error')
+
+    def getWx(self):
+        for i in range(3):
+            self.msg += self.statistics[self.Region]['Wx']['time'][i]['startTime'] + " ~ "
+            self.msg += self.statistics[self.Region]['Wx']['time'][i]['endTime'] + "\n" 
+            self.msg += self.statistics[self.Region]['Wx']['time'][i]['parameter']['parameterName'] + "\n\n" 
+       
+        
+    def getMaxT(self):
+       for i in range(3):
+            self.msg += self.statistics[self.Region]['MaxT']['time'][i]['startTime'] + " ~ "
+            self.msg += self.statistics[self.Region]['MaxT']['time'][i]['endTime'] + "\n" 
+            self.msg += self.statistics[self.Region]['MaxT']['time'][i]['parameter']['parameterName'] + " C \n\n" 
+        
+    def getMinT(self):
+        for i in range(3):
+            self.msg += self.statistics[self.Region]['MinT']['time'][i]['startTime'] + " ~ "
+            self.msg += self.statistics[self.Region]['MinT']['time'][i]['endTime'] + "\n" 
+            self.msg += self.statistics[self.Region]['MinT']['time'][i]['parameter']['parameterName'] + " C \n\n" 
+         
+    def getCi(self):
+       for i in range(3):
+            self.msg += self.statistics[self.Region]['CI']['time'][i]['startTime'] + " ~ "
+            self.msg += self.statistics[self.Region]['CI']['time'][i]['endTime'] + "\n" 
+            self.msg += self.statistics[self.Region]['CI']['time'][i]['parameter']['parameterName'] + "\n\n" 
+          
+    def getPop(self):
+       for i in range(3):
+            self.msg += self.statistics[self.Region]['PoP']['time'][i]['startTime'] + " ~ "
+            self.msg += self.statistics[self.Region]['PoP']['time'][i]['endTime'] + "\n" 
+            self.msg += self.statistics[self.Region]['PoP']['time'][i]['parameter']['parameterName'] + " % \n\n" 
+          
+
         
     def print_info(self):
         self.msg = "help in info"
@@ -142,10 +231,119 @@ class bot(object):
         db.commit()
         self.msg = "add " + str(name)
         
+    def positionInfo(self,event):
+        geolocator = Nominatim(user_agent="geoapiExercises")
+        print(str(event.message.latitude) + "," + str(event.message.longitude))
+        location = geolocator.reverse( str(event.message.latitude) + "," + str(event.message.longitude)  )
+        print(location.raw['address'])
+        list_feature = ['emergency', 'historic', 'military', 'natural', 'landuse', 'place', 'railway', 'man_made', 'aerialway', 'boundary', 'amenity', 'aeroway', 'club', 'craft', 'leisure', 'office', 'mountain_pass', 'shop', 'tourism', 'bridge', 'tunnel', 'waterway']
+        self.msg = "position : " +  str(event.message.latitude) + "," + str(event.message.longitude) + "\n"
+        for i in list_feature:
+            if i in location.raw['address'] :
+                self.feature = str(location.raw['address'][i])
+                self.msg += "Target Name : " + str(location.raw['address'][i]) + "\n"
+                break
+            else :
+                self.feature  = "" 
+        if 'house_number' in  location.raw['address'] : 
+            self.msg += "Address : " + str(location.raw['address']['country']) + str(location.raw['address']['city']) + str(location.raw['address']['road']) + str(location.raw['address']['house_number'])
+        else :
+            self.msg += "Address : " + str(location.raw['address']['country']) + str(location.raw['address']['city']) + str(location.raw['address']['road'])
+
+        
     def deleteItemDB(self,name):
         db.query(elevator).filter(elevator.name == name).delete()
         db.commit()
         self.msg = "delete " + str(name) +" success"
         
+    def map_info(self):
+        self.msg = "you can use position to get address and feature ! \n if you already get info, you can get special info from command positionInfo"
+    
+    def weatherInfo(self):
+        url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-0B96D55D-CC71-4632-ACA1-1AC1E742361F'
+        data = requests.get(url)   # 取得 JSON 檔案的內容為文字
+        data_json = data.json()    # 轉換成 JSON 格式
+        for i in data_json['records']['location']:
+            cityname = i['locationName']
+            for j in i['weatherElement']:
+                weather = j['elementName']
+
+                if cityname not in self.statistics:
+                    self.statistics[cityname] = {weather: j}
+
+                if weather not in self.statistics[cityname]:
+                    self.statistics[cityname][weather] = j    
+                    
+    def showWeatherStatus(self):
+        if(self.statistics == {}):
+            self.weatherInfo()
+            self.msg = "please use Region to reset region before you go down"
+            self.Region = ""
+        
+    def hasRegion(self):
+        if(self.Region == ""):
+            self.msg = "you dont set region, please use Region to reset region before you go down "
+            return False
+        else:
+            return True
+        
+    def hasfeature(self):
+        if(self.feature == ""):
+            self.msg = "this places do not have feature"
+            return False
+        else:
+            return True
+        
+    def changeRegion(self,Region):
+        if self.statistics.get(Region) == None:
+            self.msg = "do not have this " + Region + " please use Region to reset region before you go down"
+            self.Region = ""
+        else:
+            self.Region = Region;
+            self.msg = " set Region success \n use wx8 to get weather \n use maxT to get highest Temp \n use minT to get lowest Temp \n use ci to get comfort number \n use pop to get the property of rain"
+    def posImg(self):
+        self.willImg = 1
+        url = 'https://www.google.com/search?q=' + self.feature +'&rlz=1C2CAFB_enTW617TW617&source=lnms&tbm=isch&sa=X&ved=0ahUKEwictOnTmYDcAhXGV7wKHX-OApwQ_AUICigB&biw=1128&bih=960'
+        photolimit = 5
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(url,headers = headers) #使用header避免訪問受到限制
+        soup = BeautifulSoup(response.content, 'html.parser')
+        items = soup.find_all('img')
+        folder_path ='./static/'
+        if (os.path.exists(folder_path) == False): #判斷資料夾是否存在
+            os.makedirs(folder_path) #Create folder
+        else :
+            for file_name in os.listdir("./static/"):
+                file = "./static/" + file_name #### will need to be fix
+                if os.path.isfile(file):
+                    print('Deleting file:', file)
+                    os.remove(file)
+        for index , item in enumerate (items):
+            if (item and index < photolimit ):
+                print(item)
+            try:
+                html = requests.get(item.get('src')) # use 'get' to get photo link path , requests = send request
+                img_name = folder_path + str(index + 1) + '.png'
+                with open(img_name,'wb') as file: #以byte的形式將圖片數據寫入
+                    file.write(html.content)
+                    file.flush()
+                file.close() #close file    
+            except:
+                print("error")
+        count = 0
+        for i in range(5):
+            if os.path.isfile("./static/" + str(i+1) + ".png"):
+                self.msg_array.append(ImageSendMessage(original_content_url = ngrok_url + "/static/" + str(i+1) + ".png", preview_image_url = ngrok_url + "/static/" + str(i+1)  + ".png"))
+                count +=1
+                if count == 3:
+                    break
+
+    
+        
         
 batman = bot("Batman")
+# in cases where auto transitions should be visible
+#machine = GraphMachine(model=bot("test"), show_auto_transitions=True)
+#machine.get_graph().draw('my_state_diagram.png', prog='dot')
+# draw the whole graph ...
+#m.get_graph().draw('my_state_diagram.png', prog='dot')
