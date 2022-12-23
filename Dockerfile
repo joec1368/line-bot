@@ -10,4 +10,4 @@ COPY ./static /app/static
 COPY env.py /app/env.py
 
 ENV PATH=/home/app/.local/bin:$PATH
-ENTRYPOINT [ "python3", "/app/main.py" ]
+ENTRYPOINT [ "gunicorn", "/app/main.py:app" ]
