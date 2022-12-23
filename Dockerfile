@@ -10,5 +10,4 @@ COPY ./static /app/static
 COPY env.py /app/env.py
 
 ENV PATH=/home/app/.local/bin:$PATH
-CMD cd /app
-CMD [ "python3", "main.py" ]
+ENTRYPOINT [ "python3", "/app/main.py" ]

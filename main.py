@@ -122,5 +122,5 @@ def handle_Location_message (event):
     target.msg = ""
 
 if __name__ == '__main__':    
-    app.run(port=5002)
+    app.run(port=80)
 
