@@ -11,4 +11,7 @@ COPY env.py /app/env.py
 
 ENV PATH=/home/app/.local/bin:$PATH
 ENV PATH=$PATH:/usr/local/python3/bin:$PATH
-CMD ["gunicorn"  , "-b", "0.0.0.0:80", "/app/main:app"]
+
+CMD ["cd"  , "/app"]
+CMD ["ls"  , "-l"]
+CMD ["gunicorn"  , "main:app"]
