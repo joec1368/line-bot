@@ -121,7 +121,7 @@ class bot(object):
         
         self.machine.add_transition('delete','deleteDB','=',before = 'deleteItemDB')
         
-        self.machine.add_transition('help', ['elevator','getDB','newItemDB','deleteItemDB'],'help_elevator')
+        self.machine.add_transition('help', ['elevator','getDB','newDB','deleteDB'],'help_elevator')
                
         self.machine.on_enter_tutorial(self.print_info) 
         
