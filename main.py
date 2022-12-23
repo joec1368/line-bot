@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, LocationMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, LocationMessage,VideoSendMessage
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import random
@@ -15,14 +15,15 @@ from geopy.geocoders import Nominatim
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] =  database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db=SQLAlchemy(app)
+
 user = ""
 target = 0
 
-
-
+list = {}
 LineBot_api = LineBotApi(linebotapi)
 handler = WebhookHandler(linehandler)
+
+db=SQLAlchemy(app)
 
 class elevator(db.Model):
     __tablename__ = 'elevators'
@@ -65,35 +66,61 @@ def callback():
 @handler.add (MessageEvent, message=TextMessage)
 def handle_message (event):
     # LineBot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
-    print("message")
-    
-    split_message = event.message.text.split(' ')
-    if len(split_message) == 1:
-        batman.trigger(split_message[0]) 
-    if len(split_message) == 2:
-        batman.trigger(split_message[0],split_message[1])
-    if len(split_message) == 3:
-       batman.trigger(split_message[0],split_message[1],split_message[2]) 
+    if(event.message.text == "video" ):
+        if os.path.isfile("./static/video.mp4") and os.path.isfile("./static/preview.jpg"):
+            print("send")
+            LineBot_api.reply_message(event.reply_token,VideoSendMessage(
+            original_content_url = ngrok_url + "/static/video.mp4", # 影片的網址，可以參考圖片的上傳方式
+            preview_image_url= ngrok_url + "/static/preview.jpg" # 影片預覽的圖片
+            ))
+            return
+        
+
+    try:
+        split_message = event.message.text.split(' ')
+        if event.source.user_id in list.keys():
+            target = list[event.source.user_id]
+        else :
+            list[event.source.user_id] = bot("Batman");
+            target = list[event.source.user_id]
+        if len(split_message) == 1:
+            target.trigger(split_message[0]) 
+        if len(split_message) == 2:
+            target.trigger(split_message[0],split_message[1])
+        if len(split_message) == 3:
+            target.trigger(split_message[0],split_message[1],split_message[2]) 
+    except:
+        target.msg = "your type has some error, please check"
         
     #print(split_message[0])
     # batman.trigger(split_message[0])
     #print("next")
     #print(batman.msg)
-    if(batman.willImg == 0):
-        LineBot_api.reply_message(event.reply_token, TextSendMessage(text=batman.msg)) 
-        batman.msg = ""
+    if(target.willImg == 0):
+        LineBot_api.reply_message(event.reply_token, TextSendMessage(text = target.msg)) 
+        target.msg = ""
     else :
-        LineBot_api.reply_message(event.reply_token, batman.msg_array)
-        batman.msg_array = []
-        batman.willImg = 0 
+        LineBot_api.reply_message(event.reply_token, target.msg_array)
+        target.msg = ""
+        target.msg_array = []
+        target.willImg = 0 
 
        
 
 @handler.add (MessageEvent, message=LocationMessage)
 def handle_Location_message (event):
-    batman.trigger("position",event) 
-    LineBot_api.reply_message(event.reply_token, TextSendMessage(text=batman.msg)) 
-    batman.msg = ""
+    if event.source.user_id in list.keys():
+        target = list[event.source.user_id]
+    else :
+        list[event.source.user_id] = bot("Batman");
+        target = list[event.source.user_id]
+    try:
+        target.trigger("position",event) 
+    except:
+        target.msg = "your type has some error, please check"       
+    LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg)) 
+    target.msg = ""
 
-if __name__ == '__main__':        
+if __name__ == '__main__':    
     app.run(port=5002)
+

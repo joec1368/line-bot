@@ -74,7 +74,7 @@ class bot(object):
         
         self.machine.add_transition('help','init','tutorial')
 
-        self.machine.add_transition('news',['init','tutorial'],'News')
+        self.machine.add_transition('news',['init','tutorial','News'],'News')
         
         self.machine.add_transition('weather',['init','tutorial'],'Weather',before = 'showWeatherStatus')
         
@@ -107,7 +107,7 @@ class bot(object):
         
         self.machine.add_transition('exit','*','init')
         
-        self.machine.add_transition('elevator',['init','tutorial','help_elevator'],'elevator')
+        self.machine.add_transition('refrigerator',['init','tutorial','help_elevator'],'elevator')
         
         self.machine.add_transition('db',['elevator','help_elevator','newDB','deleteDB'],'getDB',after = 'printDB')
         
@@ -135,7 +135,7 @@ class bot(object):
 
         
     def in_init(self):
-        self.msg = "hi it is robot !"
+        self.msg = "hi it is robot ! You can use help command to get info"
 
     def news(self):
         response = requests.get("https://www.bbc.com/news")
@@ -185,7 +185,16 @@ class bot(object):
 
         
     def print_info(self):
-        self.msg = "help in info"
+        self.msg = \
+        ''' 
+welcome !
+This is useful help!
+If you want to play guess number game, you can type "play"  
+If you want to check weather info, you can type "weather"  
+If you want to check the items in you refrigerator, you can type "refrigerator"  
+If you want to catch up the news, you can type "news"  
+If you want to know the certain address info, you can type "map"
+        '''
         
     def random_number(self):
         self.target = int(random.random() * 100)
@@ -203,16 +212,17 @@ class bot(object):
             
     def print_elevator(self):
         self.msg = ''' 
-            This is your elevator!! \n
+            This is your refrigerator!! \n
             You can use [ help ] command to get help
             '''
     def help_in_elevator(self):
-        self.msg = '''This is you help:
-        (1) db : get your items in your elevator
-        (2) new : put items in your elevator
+        self.msg = \
+        '''This is your help:
+        (1) db : get your items in your refrigerator
+        (2) new : put items in your refrigerator
         \t usage : new itemName date 
         \t example : new water 12/31
-        (3) delete : delete items in your elevator
+        (3) delete : delete items in your refrigerator
         \t usage : delete itemName
         \t example : delete water
         '''
@@ -225,7 +235,10 @@ class bot(object):
         self.msg = msg
         
     def newItemDB(self,name,date):
-        date = datetime.date(2022,int(date.split('/')[0]), int(date.split('/')[1]))  #data -> 12/04
+        if int(date.split('/')[0]) >= 12:
+            date = datetime.date(2022,int(date.split('/')[0]), int(date.split('/')[1]))  #data -> 12/04
+        else:
+            date = datetime.date(2023,int(date.split('/')[0]), int(date.split('/')[1]))  #data -> 12/04
         item = elevator(name,date)
         db.add(item)
         db.commit()
@@ -299,7 +312,7 @@ class bot(object):
             self.msg = "do not have this " + Region + " please use Region to reset region before you go down"
             self.Region = ""
         else:
-            self.Region = Region;
+            self.Region = Region
             self.msg = " set Region success \n use wx8 to get weather \n use maxT to get highest Temp \n use minT to get lowest Temp \n use ci to get comfort number \n use pop to get the property of rain"
     def posImg(self):
         self.willImg = 1
@@ -314,8 +327,12 @@ class bot(object):
             os.makedirs(folder_path) #Create folder
         else :
             for file_name in os.listdir("./static/"):
+                if(file_name == "preview.jpg") :
+                    continue
+                elif(file_name == 'video.mp4'):
+                    continue
                 file = "./static/" + file_name #### will need to be fix
-                if os.path.isfile(file):
+                if os.path.isfile(file) :
                     print('Deleting file:', file)
                     os.remove(file)
         for index , item in enumerate (items):
