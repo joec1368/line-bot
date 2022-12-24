@@ -1,5 +1,5 @@
 # Smile Bot:
-- [name=F74091093陳宥橋]
+- F74091093陳宥橋
 ![](https://i.imgur.com/iUTvnrR.png)
 
 
