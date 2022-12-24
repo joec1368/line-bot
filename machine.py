@@ -313,7 +313,7 @@ If you want to know the certain address info, you can type "map"
             self.Region = ""
         else:
             self.Region = Region
-            self.msg = " set Region success \n use wx8 to get weather \n use maxT to get highest Temp \n use minT to get lowest Temp \n use ci to get comfort number \n use pop to get the property of rain"
+            self.msg = " set Region success \n use wx8 to get weather \n use maxT to get highest Temp \n use minT to get lowest Temp \n use ci to get comfort info \n use pop to get the property of rain"
     def posImg(self):
         self.willImg = 1
         url = 'https://www.google.com/search?q=' + self.feature +'&rlz=1C2CAFB_enTW617TW617&source=lnms&tbm=isch&sa=X&ved=0ahUKEwictOnTmYDcAhXGV7wKHX-OApwQ_AUICigB&biw=1128&bih=960'
