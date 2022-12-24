@@ -198,7 +198,7 @@ If you want to know the certain address info, you can type "map"
         
     def random_number(self):
         self.target = int(random.random() * 100)
-        self.msg = " Let's guess ! "
+        self.msg = " Let's guess ! \n Please use 'guess number' to guess ! "
         
     def guess(self,number):
         number = int(number)
