@@ -1,5 +1,4 @@
 # Smile Bot:
-- F74091093陳宥橋
 ![](https://i.imgur.com/iUTvnrR.png)
 
 
@@ -18,7 +17,14 @@
     * 會藉由中央氣象局的資料，可以獲得 48 hr 內的氣象資料（舒適度、最高溫、最低溫等）
 * news :
     * 會幫你在 bbc 上面爬最多人看的 top 5 新聞
-     
+
+* 核心使用技術：
+    * LINE Bot: 利用官方得 LINE Messaging API 來建構
+    * 爬蟲: 利用 beautifulsoup 來獲取資訊
+    * Backend: 利用 flask 來處理 webhook
+    * FSM: 利用 transition 這個 package 來製作
+    * 部署: docker
+    * 資料庫: postgresql
 ## 環境 : 
 * 部署 ： 選擇 dokcker python 3.8 的 image ，然後在render 上部署
 * 資料庫 ： render 平台上的 postgresql
