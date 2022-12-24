@@ -208,7 +208,7 @@ If you want to know the certain address info, you can type "map"
             self.msg = "higher"
         else:
             self.msg ="bingo ! \n And I will change target number !"
-            self.random_number()
+            self.target = int(random.random() * 100)
             
     def print_elevator(self):
         self.msg = ''' 
