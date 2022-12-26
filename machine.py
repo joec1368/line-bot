@@ -163,31 +163,119 @@ class bot(object):
             self.msg += self.statistics[self.Region]['Wx']['time'][i]['startTime'] + " ~ "
             self.msg += self.statistics[self.Region]['Wx']['time'][i]['endTime'] + "\n" 
             self.msg += self.statistics[self.Region]['Wx']['time'][i]['parameter']['parameterName'] + "\n\n" 
-       
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
+                QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
+                QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+          
+
         
     def getMaxT(self):
-       for i in range(3):
+        for i in range(3):
             self.msg += self.statistics[self.Region]['MaxT']['time'][i]['startTime'] + " ~ "
             self.msg += self.statistics[self.Region]['MaxT']['time'][i]['endTime'] + "\n" 
             self.msg += self.statistics[self.Region]['MaxT']['time'][i]['parameter']['parameterName'] + " C \n\n" 
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
+                QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
+                QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+          
+
         
     def getMinT(self):
         for i in range(3):
             self.msg += self.statistics[self.Region]['MinT']['time'][i]['startTime'] + " ~ "
             self.msg += self.statistics[self.Region]['MinT']['time'][i]['endTime'] + "\n" 
             self.msg += self.statistics[self.Region]['MinT']['time'][i]['parameter']['parameterName'] + " C \n\n" 
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
+                QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
+                QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+          
+ 
          
     def getCi(self):
-       for i in range(3):
+        for i in range(3):
             self.msg += self.statistics[self.Region]['CI']['time'][i]['startTime'] + " ~ "
             self.msg += self.statistics[self.Region]['CI']['time'][i]['endTime'] + "\n" 
             self.msg += self.statistics[self.Region]['CI']['time'][i]['parameter']['parameterName'] + "\n\n" 
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
+                QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
+                QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+          
+
           
     def getPop(self):
-       for i in range(3):
+        for i in range(3):
             self.msg += self.statistics[self.Region]['PoP']['time'][i]['startTime'] + " ~ "
             self.msg += self.statistics[self.Region]['PoP']['time'][i]['endTime'] + "\n" 
             self.msg += self.statistics[self.Region]['PoP']['time'][i]['parameter']['parameterName'] + " % \n\n" 
+            
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
+                QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
+                QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
           
 
         
@@ -205,7 +293,12 @@ If you want to know the certain address info, you can type "map"
         
     def random_number(self):
         self.target = int(random.random() * 100)
+        self.quickply = 1
         self.msg = " Let's guess ! \n Please use 'guess number' to guess ! "
+        self.reply = QuickReply(
+            items=[    
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
         
     def guess(self,number):
         number = int(number)
@@ -326,6 +419,7 @@ If you want to know the certain address info, you can type "map"
         
     def map_info(self):
         self.msg = "you can use position to get address and feature ! \n if you already get info, you can get special info from command positionInfo"
+        self.quickply = 1
         self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
@@ -415,18 +509,17 @@ If you want to know the certain address info, you can type "map"
             self.quickply = 1
             self.reply = QuickReply(
             items=[
-                QuickReplyButton(action = MessageAction(label="屏東縣", text="Region 屏東縣")),
-                QuickReplyButton(action = MessageAction(label="宜蘭縣", text="Region 宜蘭縣")),
-                QuickReplyButton(action = MessageAction(label="花蓮縣", text="Region 花蓮縣")),
-                QuickReplyButton(action = MessageAction(label="臺東縣", text="Region 臺東縣")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
+                QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
+                QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
                 QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
                 QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
                 QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
                 QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
                 QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
-                QuickReplyButton(action = MessageAction(label="新竹縣", text="Region 新竹縣")),
-                QuickReplyButton(action = MessageAction(label="苗栗縣", text="Region 苗栗縣")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
     
