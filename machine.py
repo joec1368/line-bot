@@ -18,6 +18,7 @@ from sqlalchemy.orm import Session
 from transitions.extensions import GraphMachine
 from geopy.geocoders import Nominatim
 import os
+import sys
 
 
 SQLALCHEMY_DATABASE_URL = database_uri
@@ -171,12 +172,6 @@ class bot(object):
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
-                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
-                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
-                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
-                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
-                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
           
@@ -195,12 +190,6 @@ class bot(object):
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
-                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
-                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
-                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
-                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
-                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
           
@@ -219,12 +208,6 @@ class bot(object):
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
-                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
-                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
-                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
-                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
-                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
           
@@ -243,12 +226,6 @@ class bot(object):
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
-                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
-                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
-                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
-                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
-                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
           
@@ -268,12 +245,6 @@ class bot(object):
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
-                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
-                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
-                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
-                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
-                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
           
@@ -458,8 +429,6 @@ If you want to know the certain address info, you can type "map"
                 QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
                 QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
                 QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
-                QuickReplyButton(action = MessageAction(label="新竹縣", text="Region 新竹縣")),
-                QuickReplyButton(action = MessageAction(label="苗栗縣", text="Region 苗栗縣")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
         
@@ -479,8 +448,6 @@ If you want to know the certain address info, you can type "map"
                 QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
                 QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
                 QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
-                QuickReplyButton(action = MessageAction(label="新竹縣", text="Region 新竹縣")),
-                QuickReplyButton(action = MessageAction(label="苗栗縣", text="Region 苗栗縣")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
             return False
@@ -507,6 +474,7 @@ If you want to know the certain address info, you can type "map"
             self.Region = Region
             self.msg = " set Region success \n use wx8 to get weather \n use maxT to get highest Temp \n use minT to get lowest Temp \n use ci to get comfort info \n use pop to get the property of rain"
             self.quickply = 1
+            self.reply = ''
             self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
@@ -514,12 +482,6 @@ If you want to know the certain address info, you can type "map"
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
-                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
-                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
-                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
-                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
-                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
-                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
     
@@ -528,9 +490,11 @@ If you want to know the certain address info, you can type "map"
         url = 'https://www.google.com/search?q=' + self.feature +'&rlz=1C2CAFB_enTW617TW617&source=lnms&tbm=isch&sa=X&ved=0ahUKEwictOnTmYDcAhXGV7wKHX-OApwQ_AUICigB&biw=1128&bih=960'
         photolimit = 5
         headers = {'User-Agent': 'Mozilla/5.0'}
+        print("start to get img", file=sys.stderr)
         response = requests.get(url,headers = headers) #使用header避免訪問受到限制
         soup = BeautifulSoup(response.content, 'html.parser')
         items = soup.find_all('img')
+        print("get img", file=sys.stderr)
         folder_path ='./static/'
         if (os.path.exists(folder_path) == False): #判斷資料夾是否存在
             os.makedirs(folder_path) #Create folder
@@ -544,6 +508,7 @@ If you want to know the certain address info, you can type "map"
                 if os.path.isfile(file) :
                     print('Deleting file:', file)
                     os.remove(file)
+        print("start download img" ,file=sys.stderr)
         for index , item in enumerate (items):
             if (item and index < photolimit ):
                 print(item)
@@ -557,6 +522,7 @@ If you want to know the certain address info, you can type "map"
             except:
                 print("error")
         count = 0
+        print("start send img", file=sys.stderr)
         for i in range(5):
             if os.path.isfile("./static/" + str(i+1) + ".png"):
                 self.msg_array.append(ImageSendMessage(original_content_url = ngrok_url + "/static/" + str(i+1) + ".png", preview_image_url = ngrok_url + "/static/" + str(i+1)  + ".png"))
