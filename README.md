@@ -44,6 +44,9 @@
     * beautifulsoup : 用來抓取新聞相關資訓
 * 部署：
     * docker
+* 加速操作：
+   * 在多個state 裡面有使用 QuickReply QuickReplyButton MessageAction LocationAction，來達成快速回覆訊息
+   * 有用圖文選單去優化。
 
 ## 使用教學
 * init state，可以使用 help 去獲得相關資訊
