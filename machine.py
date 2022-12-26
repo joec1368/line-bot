@@ -3,7 +3,7 @@ from flask import Flask
 from flask import request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage,QuickReply,QuickReplyButton,MessageAction
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import random
@@ -54,6 +54,8 @@ class bot(object):
     msg = ""
     target = 0
     Region = ""
+    quickply = 0
+    reply = ""
     
 
 
@@ -271,6 +273,11 @@ If you want to know the certain address info, you can type "map"
         
     def map_info(self):
         self.msg = "you can use position to get address and feature ! \n if you already get info, you can get special info from command positionInfo"
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="Info", text="positionInfo")
+                )])
     
     def weatherInfo(self):
         url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-0B96D55D-CC71-4632-ACA1-1AC1E742361F'

@@ -97,10 +97,20 @@ def handle_message (event):
     #print("next")
     #print(batman.msg)
     if(target.willImg == 0):
-        LineBot_api.reply_message(event.reply_token, TextSendMessage(text = target.msg)) 
+        if target.quickply == 0:
+            LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg)) 
+        elif target.quickply == 1:
+            LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg,quick_reply = target.reply)) 
+            target.quickply = 0
+            target.reply = ''
         target.msg = ""
     else :
-        LineBot_api.reply_message(event.reply_token, target.msg_array)
+        if target.quickply == 0:
+            LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg)) 
+        elif target.quickply == 1:
+            LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg,quick_reply = target.reply)) 
+            target.quickply = 0
+            target.reply = ''
         target.msg = ""
         target.msg_array = []
         target.willImg = 0 
@@ -117,8 +127,14 @@ def handle_Location_message (event):
     try:
         target.trigger("position",event) 
     except:
-        target.msg = "your type has some error, please check"       
-    LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg)) 
+        target.msg = "your type has some error, please check"      
+         
+    if target.quickply == 0:
+        LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg)) 
+    elif target.quickply == 1:
+        LineBot_api.reply_message(event.reply_token, TextSendMessage(text=target.msg,quick_reply = target.reply)) 
+        target.quickply = 0
+        target.reply = ''
     target.msg = ""
 
 if __name__ == '__main__':    
