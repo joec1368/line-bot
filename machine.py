@@ -168,7 +168,7 @@ class bot(object):
         self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
-                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="maxT")),
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
@@ -186,7 +186,7 @@ class bot(object):
         self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
-                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="maxT")),
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
@@ -204,7 +204,7 @@ class bot(object):
         self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
-                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="maxT")),
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
@@ -222,7 +222,7 @@ class bot(object):
         self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
-                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="maxT")),
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
@@ -241,7 +241,7 @@ class bot(object):
         self.reply = QuickReply(
             items=[
                 QuickReplyButton(action = MessageAction(label="天氣狀況", text="wx8")),
-                QuickReplyButton(action = MessageAction(label="最高溫", text="MaxT")),
+                QuickReplyButton(action = MessageAction(label="最高溫", text="maxT")),
                 QuickReplyButton(action = MessageAction(label="最低溫", text="minT")),
                 QuickReplyButton(action = MessageAction(label="感覺狀況", text="ci")),
                 QuickReplyButton(action = MessageAction(label="降雨機率", text="pop")),
