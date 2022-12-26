@@ -531,12 +531,6 @@ If you want to know the certain address info, you can type "map"
                 count +=1
                 if count == 3:
                     break
-        self.msg_array.append(TextSendMessage(text="",quick_reply = QuickReply(
-            items=[
-                QuickReplyButton(action = LocationAction(label="Location")),
-                QuickReplyButton(action = MessageAction(label="Info", text="positionInfo")),
-                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
-                ])))
     
         
         
