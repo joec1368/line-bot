@@ -106,7 +106,7 @@ def handle_message (event):
             target.reply = ''
         target.msg = ""
     else :
-        LineBot_api.reply_message(event.reply_token, ImageSendMessage(target.msg_array)) 
+        LineBot_api.reply_message(event.reply_token, target.msg_array) 
         target.quickply = 0
         target.reply = ''
         target.msg = ""
