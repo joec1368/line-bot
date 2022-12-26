@@ -3,7 +3,7 @@ from flask import Flask
 from flask import request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage,QuickReply,QuickReplyButton,MessageAction
+from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage,QuickReply,QuickReplyButton,MessageAction,LocationAction
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import random
@@ -371,6 +371,7 @@ If you want to know the certain address info, you can type "map"
         self.quickply = 1
         self.reply = QuickReply(
             items=[
+                QuickReplyButton(action = LocationAction(label="Location")),
                 QuickReplyButton(action = MessageAction(label="Info", text="positionInfo")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
@@ -393,6 +394,7 @@ If you want to know the certain address info, you can type "map"
         self.quickply = 1
         self.reply = QuickReply(
             items=[
+                QuickReplyButton(action = LocationAction(label="Location")),
                 QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
                 ])
     
@@ -529,11 +531,6 @@ If you want to know the certain address info, you can type "map"
                 count +=1
                 if count == 3:
                     break
-        self.quickply = 1
-        self.reply = QuickReply(
-        items=[
-            QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
-            ])
     
         
         
