@@ -152,6 +152,11 @@ class bot(object):
               j+=1
           except:
               print('error')
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[    
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
 
     def getWx(self):
         for i in range(3):
@@ -211,12 +216,26 @@ If you want to know the certain address info, you can type "map"
         else:
             self.msg ="bingo ! \n And I will change target number !"
             self.target = int(random.random() * 100)
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[    
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
             
     def print_elevator(self):
-        self.msg = ''' 
+        self.msg = \
+            ''' 
             This is your refrigerator!! \n
             You can use [ help ] command to get help
             '''
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="help", text="help")),
+                QuickReplyButton(action = MessageAction(label="Show", text="db")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+        
     def help_in_elevator(self):
         self.msg = \
         '''This is your help:
@@ -228,6 +247,13 @@ If you want to know the certain address info, you can type "map"
         \t usage : delete itemName
         \t example : delete water
         '''
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="help", text="help")),
+                QuickReplyButton(action = MessageAction(label="Show", text="db")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
         
     def printDB(self):
         items = db.query(elevator)
@@ -235,6 +261,13 @@ If you want to know the certain address info, you can type "map"
         for item in items:
             msg+=f"{item.name}, {item.date} \n"
         self.msg = msg
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="help", text="help")),
+                QuickReplyButton(action = MessageAction(label="Show", text="db")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
         
     def newItemDB(self,name,date):
         if int(date.split('/')[0]) >= 12:
@@ -245,6 +278,13 @@ If you want to know the certain address info, you can type "map"
         db.add(item)
         db.commit()
         self.msg = "add " + str(name)
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="help", text="help")),
+                QuickReplyButton(action = MessageAction(label="Show", text="db")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
         
     def positionInfo(self,event):
         geolocator = Nominatim(user_agent="geoapiExercises")
@@ -264,20 +304,32 @@ If you want to know the certain address info, you can type "map"
             self.msg += "Address : " + str(location.raw['address']['country']) + str(location.raw['address']['city']) + str(location.raw['address']['road']) + str(location.raw['address']['house_number'])
         else :
             self.msg += "Address : " + str(location.raw['address']['country']) + str(location.raw['address']['city']) + str(location.raw['address']['road'])
+        self.quickply = 1
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="Info", text="positionInfo")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
 
         
     def deleteItemDB(self,name):
         db.query(elevator).filter(elevator.name == name).delete()
         db.commit()
         self.msg = "delete " + str(name) +" success"
-        
-    def map_info(self):
-        self.msg = "you can use position to get address and feature ! \n if you already get info, you can get special info from command positionInfo"
         self.quickply = 1
         self.reply = QuickReply(
             items=[
-                QuickReplyButton(action = MessageAction(label="Info", text="positionInfo")
-                )])
+                QuickReplyButton(action = MessageAction(label="help", text="help")),
+                QuickReplyButton(action = MessageAction(label="Show", text="db")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+        
+    def map_info(self):
+        self.msg = "you can use position to get address and feature ! \n if you already get info, you can get special info from command positionInfo"
+        self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
     
     def weatherInfo(self):
         url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-0B96D55D-CC71-4632-ACA1-1AC1E742361F'
@@ -299,10 +351,44 @@ If you want to know the certain address info, you can type "map"
             self.weatherInfo()
             self.msg = "please use Region to reset region before you go down"
             self.Region = ""
+            self.quickply = 1
+            self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="屏東縣", text="Region 屏東縣")),
+                QuickReplyButton(action = MessageAction(label="宜蘭縣", text="Region 宜蘭縣")),
+                QuickReplyButton(action = MessageAction(label="花蓮縣", text="Region 花蓮縣")),
+                QuickReplyButton(action = MessageAction(label="臺東縣", text="Region 臺東縣")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="新竹縣", text="Region 新竹縣")),
+                QuickReplyButton(action = MessageAction(label="苗栗縣", text="Region 苗栗縣")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
         
     def hasRegion(self):
         if(self.Region == ""):
             self.msg = "you dont set region, please use Region to reset region before you go down "
+            self.quickply = 1
+            self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="屏東縣", text="Region 屏東縣")),
+                QuickReplyButton(action = MessageAction(label="宜蘭縣", text="Region 宜蘭縣")),
+                QuickReplyButton(action = MessageAction(label="花蓮縣", text="Region 花蓮縣")),
+                QuickReplyButton(action = MessageAction(label="臺東縣", text="Region 臺東縣")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="新竹縣", text="Region 新竹縣")),
+                QuickReplyButton(action = MessageAction(label="苗栗縣", text="Region 苗栗縣")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
             return False
         else:
             return True
@@ -310,6 +396,11 @@ If you want to know the certain address info, you can type "map"
     def hasfeature(self):
         if(self.feature == ""):
             self.msg = "this places do not have feature"
+            self.quickply = 1
+            self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
             return False
         else:
             return True
@@ -321,6 +412,24 @@ If you want to know the certain address info, you can type "map"
         else:
             self.Region = Region
             self.msg = " set Region success \n use wx8 to get weather \n use maxT to get highest Temp \n use minT to get lowest Temp \n use ci to get comfort info \n use pop to get the property of rain"
+            self.quickply = 1
+            self.reply = QuickReply(
+            items=[
+                QuickReplyButton(action = MessageAction(label="屏東縣", text="Region 屏東縣")),
+                QuickReplyButton(action = MessageAction(label="宜蘭縣", text="Region 宜蘭縣")),
+                QuickReplyButton(action = MessageAction(label="花蓮縣", text="Region 花蓮縣")),
+                QuickReplyButton(action = MessageAction(label="臺東縣", text="Region 臺東縣")),
+                QuickReplyButton(action = MessageAction(label="臺北市", text="Region 臺北市")),
+                QuickReplyButton(action = MessageAction(label="新北市", text="Region 新北市")),
+                QuickReplyButton(action = MessageAction(label="桃園市", text="Region 桃園市")),
+                QuickReplyButton(action = MessageAction(label="臺中市", text="Region 臺中市")),
+                QuickReplyButton(action = MessageAction(label="臺南市", text="Region 臺南市")),
+                QuickReplyButton(action = MessageAction(label="高雄市", text="Region 高雄市")),
+                QuickReplyButton(action = MessageAction(label="新竹縣", text="Region 新竹縣")),
+                QuickReplyButton(action = MessageAction(label="苗栗縣", text="Region 苗栗縣")),
+                QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+                ])
+    
     def posImg(self):
         self.willImg = 1
         url = 'https://www.google.com/search?q=' + self.feature +'&rlz=1C2CAFB_enTW617TW617&source=lnms&tbm=isch&sa=X&ved=0ahUKEwictOnTmYDcAhXGV7wKHX-OApwQ_AUICigB&biw=1128&bih=960'
@@ -361,7 +470,11 @@ If you want to know the certain address info, you can type "map"
                 count +=1
                 if count == 3:
                     break
-
+        self.quickply = 1
+        self.reply = QuickReply(
+        items=[
+            QuickReplyButton(action = MessageAction(label="Exit", text="exit")),
+            ])
     
         
         
