@@ -75,14 +75,17 @@ def handle_message (event):
             preview_image_url= ngrok_url + "/static/preview.jpg" # 影片預覽的圖片
             ))
             return
-        
-
+    elif event.message.text == "reset":
+        list[event.source.user_id] = bot("Batman")
+        LineBot_api.reply_message(event.reply_token, TextSendMessage(text="reset"))
+        return 
+    
     try:
         split_message = event.message.text.split(' ')
         if event.source.user_id in list.keys():
             target = list[event.source.user_id]
         else :
-            list[event.source.user_id] = bot("Batman");
+            list[event.source.user_id] = bot("Batman")
             target = list[event.source.user_id]
         if len(split_message) == 1:
             target.trigger(split_message[0]) 
